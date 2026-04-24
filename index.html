@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver 110 Calculator — Irondequoit Country Club</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green: #1a4a3a;
+            --green-light: #2d6b55;
+            --gold: #c4a35a;
+            --gold-light: #e0c878;
+            --cream: #f5f0e8;
+            --white: #ffffff;
+            --text: #2c2c2c;
+            --text-muted: #6b6b6b;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0d2818 0%, #1a4a3a 50%, #0f3324 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: var(--text);
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .subtitle strong {
+            color: var(--green);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        label .hint {
+            font-weight: 400;
+            text-transform: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            letter-spacing: 0;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+            border: 2px solid #e0ddd5;
+            border-radius: var(--radius);
+            background: var(--cream);
+            transition: all 0.2s;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--green);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(26, 74, 58, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 74, 58, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 28px;
+            padding: 28px 24px;
+            border-radius: var(--radius);
+            text-align: center;
+            display: none;
+            animation: fadeUp 0.4s ease-out;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result.qualified {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            border: 2px solid var(--green);
+        }
+
+        .result.countdown {
+            background: linear-gradient(135deg, #fff8e1, #fffde7);
+            border: 2px solid var(--gold);
+        }
+
+        .result-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .result-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .result.qualified .result-title {
+            color: var(--green);
+        }
+
+        .result.countdown .result-title {
+            color: #b8860b;
+        }
+
+        .result-detail {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .result-detail strong {
+            color: var(--text);
+        }
+
+        .result-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--green);
+            margin: 12px 0;
+        }
+
+        .result.countdown .result-number {
+            color: #b8860b;
+        }
+
+        .share {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .share a {
+            color: var(--text-muted);
+            font-size: 13px;
+            text-decoration: none;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .share a:hover {
+            color: var(--green);
+            border-bottom-color: var(--green);
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 32px 24px; }
+            h1 { font-size: 26px; }
+            .input-row { grid-template-columns: 1fr; }
+            .result-number { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="logo">Irondequoit Country Club</div>
+            <div class="logo-sub">Est. 1916 · Pittsford, NY</div>
+            <h1>Silver 110</h1>
+            <p class="subtitle">
+                When your <strong>age</strong> + <strong>years as a member</strong> = <strong>110</strong>,<br>
+                you're in the club with severely discounted rates.
+            </p>
+        </div>
+
+        <form id="calcForm">
+            <div class="input-row">
+                <div class="form-group">
+                    <label for="age">Your Age</label>
+                    <input type="number" id="age" placeholder="e.g. 45" min="1" max="120" required>
+                </div>
+                <div class="form-group">
+                    <label for="years">Years as Member</label>
+                    <input type="number" id="years" placeholder="e.g. 10" min="0" max="100" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Calculate My Silver 110</button>
+        </form>
+
+        <div class="result" id="result">
+            <div class="result-icon" id="resultIcon">🏆</div>
+            <div class="result-title" id="resultTitle">You're In!</div>
+            <div class="result-number" id="resultNumber">110</div>
+            <div class="result-detail" id="resultDetail">Congratulations! You've reached the Silver 110 milestone.</div>
+        </div>
+
+        <div class="share">
+            <a href="#" id="shareLink" onclick="copyShareLink(event)">📋 Copy share link</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        Irondequoit Country Club · Silver 110 Program
+    </div>
+
+    <script>
+        const form = document.getElementById('calcForm');
+        const result = document.getElementById('result');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultNumber = document.getElementById('resultNumber');
+        const resultDetail = document.getElementById('resultDetail');
+        const ageInput = document.getElementById('age');
+        const yearsInput = document.getElementById('years');
+
+        function calculate(age, years) {
+            const sum = age + years;
+            const target = 110;
+            const remaining = target - sum;
+
+            return { sum, remaining, qualified: remaining <= 0 };
+        }
+
+        function updateResult(age, years) {
+            const { sum, remaining, qualified } = calculate(age, years);
+
+            if (qualified) {
+                result.className = 'result show qualified';
+                resultIcon.textContent = '🏆';
+                resultTitle.textContent = 'You're In!';
+                resultNumber.textContent = sum;
+                resultDetail.innerHTML = `
+                    At <strong>${age}</strong> years old with <strong>${years}</strong> years of membership,<br>
+                    your combined score is <strong>${sum}</strong> — you've hit the Silver 110.<br><br>
+                    Time to enjoy those discounted rates. 🥂
+                `;
+            } else {
+                result.className = 'result show countdown';
+                resultIcon.textContent = '⏳';
+                resultTitle.textContent = `${remaining} Years to Go`;
+                resultNumber.textContent = `${sum}/110`;
+                resultDetail.innerHTML = `
+                    At <strong>${age}</strong> years old with <strong>${years}</strong> years of membership,<br>
+                    your combined score is <strong>${sum}</strong>.<br><br>
+                    <strong>${remaining}</strong> more year${remaining === 1 ? '' : 's'} to Silver 110.<br>
+                    You'll hit it at age <strong>${age + remaining}</strong> (${remaining} year${remaining === 1 ? '' : 's'} from now).
+                `;
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const age = parseInt(ageInput.value);
+            const years = parseInt(yearsInput.value);
+
+            if (!age || !years || age < 1 || years < 0) return;
+
+            updateResult(age, years);
+
+            // Update share link
+            const shareUrl = `${window.location.origin}${window.location.pathname}?age=${age}&years=${years}`;
+            document.getElementById('shareLink').href = shareUrl;
+        });
+
+        // Load from query params
+        (function loadFromQuery() {
+            const params = new URLSearchParams(window.location.search);
+            const age = params.get('age');
+            const years = params.get('years');
+            if (age && years) {
+                ageInput.value = age;
+                yearsInput.value = years;
+                updateResult(parseInt(age), parseInt(years));
+            }
+        })();
+
+        function copyShareLink(e) {
+            e.preventDefault();
+            const age = ageInput.value;
+            const years = yearsInput.value;
+            if (!age || !years) return;
+            const url = `${window.location.origin}${window.location.pathname}?age=${age}&years=${years}`;
+            navigator.clipboard.writeText(url).then(() => {
+                const link = document.getElementById('shareLink');
+                link.textContent = '✅ Copied!';
+                setTimeout(() => { link.textContent = '📋 Copy share link'; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
