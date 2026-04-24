@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Silver 110 Calculator - Irondequoit Country Club</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--green:#1a4a3a;--green-light:#2d6b55;--gold:#c4a35a;--cream:#f5f0e8;--white:#fff;--text:#2c2c2c;--text-muted:#6b6b6b;--radius:12px;}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#0d2818,#1a4a3a 50%,#0f3324);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:var(--text);}
+.card{background:var(--white);border-radius:20px;padding:48px 40px 40px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--green),var(--gold),var(--green));}
+.logo-wrapper{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:28px;}
+.logo-emblem{flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+.logo-emblem svg{display:block;width:80px;height:90px;}
+.logo-year{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#000;margin-top:4px;letter-spacing:1px;}
+.logo-text{display:flex;flex-direction:column;align-items:center;line-height:1;}
+.logo-name{font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:#000;letter-spacing:3px;position:relative;}
+.logo-name .q-tail{display:inline-block;position:relative;}
+.logo-name .q-tail::after{content:'';position:absolute;top:62%;left:60%;width:28px;height:10px;border:2px solid #000;border-color:transparent transparent #000 #000;border-radius:0 0 0 12px;transform:rotate(-8deg);}
+.logo-divider{display:flex;align-items:center;gap:10px;margin-top:5px;width:100%;}
+.logo-divider .line{flex:1;height:1px;}
+.logo-divider .line-left{background:linear-gradient(to left,#000,transparent);}
+.logo-divider .line-right{background:linear-gradient(to right,#000,transparent);}
+.logo-sub{font-family:'Playfair Display',serif;font-size:12px;font-weight:600;color:#000;letter-spacing:5px;text-transform:uppercase;padding:0 6px;}
+h1{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--green);text-align:center;margin-bottom:6px;}
+.subtitle{text-align:center;color:var(--text-muted);font-size:14px;line-height:1.5;margin-bottom:30px;}
+.subtitle strong{color:var(--green);}
+.form-group{margin-bottom:20px;}
+label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+label .hint{font-weight:400;text-transform:none;color:var(--text-muted);font-size:12px;letter-spacing:0;}
+input[type="number"]{width:100%;padding:14px 16px;font-size:18px;font-family:'Inter',sans-serif;border:2px solid #e0ddd5;border-radius:var(--radius);background:var(--cream);transition:all .2s;outline:none;-moz-appearance:textfield;}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+input[type="number"]:focus{border-color:var(--green);background:var(--white);box-shadow:0 0 0 3px rgba(26,74,58,.1);}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.btn{width:100%;padding:16px;font-size:16px;font-weight:600;font-family:'Inter',sans-serif;border:none;border-radius:var(--radius);cursor:pointer;transition:all .2s;margin-top:8px;}
+.btn-primary{background:var(--green);color:var(--white);}
+.btn-primary:hover{background:var(--green-light);transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,74,58,.3);}
+.btn-primary:active{transform:translateY(0);}
+.result{margin-top:24px;padding:24px;border-radius:var(--radius);text-align:center;display:none;animation:fadeUp .4s ease-out;}
+.result.show{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.result.qualified{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid var(--green);}
+.result.countdown{background:linear-gradient(135deg,#fff8e1,#fffde7);border:2px solid var(--gold);}
+.result-icon{font-size:42px;margin-bottom:10px;}
+.result-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;margin-bottom:6px;}
+.result.qualified .result-title{color:var(--green);}
+.result.countdown .result-title{color:#b8860b;}
+.result-detail{font-size:14px;line-height:1.6;color:var(--text-muted);}
+.result-detail strong{color:var(--text);}
+.result-number{font-size:40px;font-weight:700;color:var(--green);margin:8px 0;}
+.result.countdown .result-number{color:#b8860b;}
+.result-wisecrack{margin-top:14px;padding:10px 14px;font-size:13px;font-style:italic;color:#777;line-height:1.5;background:#fafafa;border-radius:8px;}
+.share{margin-top:16px;text-align:center;}
+.share a{color:var(--text-muted);font-size:13px;text-decoration:none;border-bottom:1px dashed #ccc;cursor:pointer;}
+.share a:hover{color:var(--green);border-bottom-color:var(--green);}
+.footer{margin-top:20px;text-align:center;color:rgba(255,255,255,.5);font-size:12px;letter-spacing:.5px;}
+@media(max-width:480px){
+.card{padding:32px 20px;}
+.logo-wrapper{gap:12px;}
+.logo-emblem svg{width:60px;height:68px;}
+.logo-name{font-size:20px;letter-spacing:2px;}
+.logo-year{font-size:14px;}
+.logo-sub{font-size:10px;letter-spacing:3px;}
+h1{font-size:26px;}
+.input-row{grid-template-columns:1fr;}
+.result-number{font-size:32px;}
+}
+</style>
+</head>
+<body>
+<div class="card">
+
+<div class="logo-wrapper">
+<div class="logo-emblem">
+<svg viewBox="0 0 100 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 2 L92 18 L92 60 Q92 85 50 110 Q8 85 8 60 L8 18 Z" stroke="#000" stroke-width="2" fill="#fff"/>
+<path d="M50 6 L88 20.5 L88 58 Q88 82 50 106 Q12 82 12 58 L12 20.5 Z" stroke="#C51E25" stroke-width="5" fill="none"/>
+<path d="M50 10 L84 23 L84 56 Q84 79 50 102 Q16 79 16 56 L16 23 Z" stroke="#000" stroke-width="1.5" fill="none"/>
+<line x1="46" y1="30" x2="22" y2="52" stroke="#000" stroke-width="2.5"/>
+<line x1="54" y1="30" x2="78" y2="52" stroke="#000" stroke-width="2.5"/>
+<polygon points="20,54 28,50 26,58" fill="#000"/>
+<polygon points="80,54 72,50 74,58" fill="#000"/>
+<polygon points="42,28 38,26 42,24" fill="#fff" stroke="#000" stroke-width="0.8"/>
+<polygon points="48,26 44,24 48,22" fill="#fff" stroke="#000" stroke-width="0.8"/>
+<polygon points="58,28 62,26 58,24" fill="#fff" stroke="#000" stroke-width="0.8"/>
+<polygon points="52,26 56,24 52,22" fill="#fff" stroke="#000" stroke-width="0.8"/>
+<line x1="40" y1="80" x2="28" y2="40" stroke="#555" stroke-width="2"/>
+<line x1="60" y1="80" x2="72" y2="40" stroke="#555" stroke-width="2"/>
+<path d="M28 40 L24 36 L26 34 L30 38 Z" fill="#999" stroke="#000" stroke-width="0.5"/>
+<rect x="23" y="35" width="6" height="2" rx="1" fill="#999" stroke="#000" stroke-width="0.3"/>
+<path d="M72 40 L76 36 L74 34 L70 38 Z" fill="#999" stroke="#000" stroke-width="0.5"/>
+<rect x="71" y="35" width="6" height="2" rx="1" fill="#999" stroke="#000" stroke-width="0.3"/>
+<text x="50" y="68" font-family="'Playfair Display','Times New Roman',serif" font-size="46" font-weight="700" fill="#C51E25" text-anchor="middle" dominant-baseline="central">I</text>
+</svg>
+<div class="logo-year">1916</div>
+</div>
+<div class="logo-text">
+<div class="logo-name">IROND<span class="q-tail">E</span>QUOIT</div>
+<div class="logo-divider"><span class="line line-left"></span><span class="logo-sub">Country Club</span><span class="line line-right"></span></div>
+</div>
+</div>
+
+<h1>Silver 110</h1>
+<p class="subtitle">When your <strong>age</strong> + <strong>years as a member</strong> = <strong>110</strong>,<br>you're in the club with a nice discount on your dues.</p>
+
+<form id="calcForm">
+<div class="input-row">
+<div class="form-group">
+<label for="age">Your Age</label>
+<input type="number" id="age" placeholder="e.g. 45" min="1" max="120" required>
+</div>
+<div class="form-group">
+<label for="yearJoined">Year Joined <span class="hint">(we do the math)</span></label>
+<input type="number" id="yearJoined" placeholder="e.g. 2018" min="1916" max="2026" required>
+</div>
+</div>
+<button type="submit" class="btn btn-primary">Calculate My Silver 110</button>
+</form>
+
+<div class="result" id="result">
+<div class="result-icon" id="resultIcon"></div>
+<div class="result-title" id="resultTitle">You're In!</div>
+<div class="result-number" id="resultNumber">110</div>
+<div class="result-detail" id="resultDetail"></div>
+<div class="result-wisecrack" id="resultWisecrack"></div>
+</div>
+
+<div class="share"><a id="shareLink">Copy share link</a></div>
+</div>
+
+<div class="footer">Irondequoit Country Club - Silver 110 Program</div>
+
+<script>
+(function(){
+"use strict";
+var form=document.getElementById('calcForm');
+var result=document.getElementById('result');
+var resultIcon=document.getElementById('resultIcon');
+var resultTitle=document.getElementById('resultTitle');
+var resultNumber=document.getElementById('resultNumber');
+var resultDetail=document.getElementById('resultDetail');
+var resultWisecrack=document.getElementById('resultWisecrack');
+var ageInput=document.getElementById('age');
+var yearJoinedInput=document.getElementById('yearJoined');
+var shareLink=document.getElementById('shareLink');
+var target=110;
+var currentYear=2026;
+
+var wisecracks=[
+'That tree on 7 will still be there, right in the middle of the fairway, mocking your drive.',
+'Believe it or not, by the time you qualify, that golf hut will still be standing and still never used.',
+'The 11th hole will flood again next big rain. And the one after that. It is not getting fixed.',
+'At least you are younger than Mike Mercier. Probably.',
+'Mark at the bar will be slightly less grumpy by then. Slightly.',
+'You have less years to go than the age of the stink in the men\'s locker room.',
+'By Silver 110 you will be hitting driver on 6. That is how short it is.'
+];
+
+var lastJoke = -1;
+function getWisecrack(){
+var idx;
+do{idx=Math.floor(Math.random()*wisecracks.length);}while(idx===lastJoke&&wisecracks.length>1);
+lastJoke=idx;
+return wisecracks[idx];
+}
+
+function calc(age,joinedYear){
+var yearsMember=currentYear-joinedYear;
+var currentScore=age+yearsMember;
+var deficit=target-currentScore;
+var yearsToGo=Math.ceil(deficit/2);
+var qualified=currentScore>=target;
+var hitYear=qualified?currentYear:currentYear+yearsToGo;
+var hitAge=qualified?age:age+yearsToGo;
+var hitYearsMember=qualified?yearsMember:yearsMember+yearsToGo;
+return{currentScore:currentScore,yearsMember:yearsMember,qualified:qualified,yearsToGo:yearsToGo,hitYear:hitYear,hitAge:hitAge,hitYearsMember:hitYearsMember};
+}
+
+function showResult(age,joinedYear){
+var d=calc(age,joinedYear);
+if(d.qualified){
+result.className='result show qualified';
+resultIcon.textContent='';
+resultTitle.textContent="You're In!";
+resultNumber.textContent=d.currentScore+'/110';
+resultDetail.innerHTML='At age <strong>'+age+'</strong> with <strong>'+d.yearsMember+'</strong> years of membership, your combined score is <strong>'+d.currentScore+'</strong>. You have already reached Silver 110. Enjoy the discount!';
+resultWisecrack.textContent='';
+}else{
+result.className='result show countdown';
+resultIcon.textContent='';
+resultTitle.textContent=d.hitYear+' ('+d.yearsToGo+' year'+(d.yearsToGo===1?'':'s')+')';
+resultNumber.textContent=d.currentScore+'/110';
+resultDetail.innerHTML='Today: age <strong>'+age+'</strong> + <strong>'+d.yearsMember+'</strong> years member = <strong>'+d.currentScore+'</strong><br>Every year both numbers go up, so you gain <strong>2 points per year</strong>.<br><br>You will hit Silver 110 in <strong>'+d.yearsToGo+'</strong> year'+(d.yearsToGo===1?'':'s')+' in <strong>'+d.hitYear+'</strong> at age <strong>'+d.hitAge+'</strong> with <strong>'+d.hitYearsMember+'</strong> years of membership.';
+resultWisecrack.textContent=getWisecrack();
+}
+}
+
+form.addEventListener('submit',function(e){
+e.preventDefault();
+var age=parseInt(ageInput.value);
+var joined=parseInt(yearJoinedInput.value);
+if(!age||!joined||age<1||joined<1916)return;
+showResult(age,joined);
+var url=window.location.origin+window.location.pathname+'?age='+age+'&joined='+joined;
+shareLink.href=url;
+});
+
+var params=new URLSearchParams(window.location.search);
+if(params.get('age')&&params.get('joined')){
+ageInput.value=params.get('age');
+yearJoinedInput.value=params.get('joined');
+showResult(parseInt(params.get('age')),parseInt(params.get('joined')));
+}
+
+shareLink.addEventListener('click',function(e){
+e.preventDefault();
+var age=ageInput.value;
+var joined=yearJoinedInput.value;
+if(!age||!joined)return;
+var url=window.location.origin+window.location.pathname+'?age='+age+'&joined='+joined;
+navigator.clipboard.writeText(url).then(function(){shareLink.textContent='Copied!';setTimeout(function(){shareLink.textContent='Copy share link';},2000);});
+});
+})();
+</script>
+</body>
+</html>
